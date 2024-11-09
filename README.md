@@ -1,50 +1,98 @@
-# Welcome to your Expo app 👋
+# Myelino Technical Test
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+This repository contains the base project for the Myelino technical test in React Native. Follow the instructions below to clone the project, install dependencies, initialize the project, and review the pre-installed packages.
 
-## Get started
+---
 
-1. Install dependencies
+## Table of Contents
 
-   ```bash
-   npm install
-   ```
+1. [Project Cloning](#project-cloning)
+2. [Dependency Installation](#dependency-installation)
+3. [Project Initialization](#project-initialization)
+4. [Pre-installed Packages](#pre-installed-packages)
+5. [Developer Instructions](#developer-instructions)
 
-2. Start the app
+---
 
-   ```bash
-    npx expo start
-   ```
+## Project Cloning
 
-In the output, you'll find options to open the app in a
-
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
+Clone the repository to your local machine using the following command:
 
 ```bash
-npm run reset-project
+git clone https://github.com/Myelino-MVP/myelino-technical-test
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+Navigate to the project directory:
 
-## Learn more
+```bash
+cd myelino-technical-test
+```
 
-To learn more about developing your project with Expo, look at the following resources:
+---
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+## Dependency Installation
 
-## Join the community
+Run the following command to install the required dependencies:
 
-Join our community of developers creating universal apps.
+```bash
+npm install
+```
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+This will install all necessary packages for the project, including both core dependencies and any pre-installed packages.
+
+---
+
+## Project Initialization
+
+To start the project in development mode, use the following command:
+
+```bash
+npx react-native run-android
+```
+
+or
+
+```bash
+npx react-native run-ios
+```
+
+> **Note:** Make sure to have an Android or iOS emulator running, or connect a physical device.
+
+For easier debugging and live reloading, you can also use:
+
+```bash
+npx expo start
+```
+
+---
+
+## Pre-installed Packages
+
+This project includes the following pre-installed packages:
+
+1. **Expo Router**: For seamless navigation between screens.
+
+   - Installed with core dependencies for navigation structure.
+   - Ensure to follow [Expo Router setup instructions](https://docs.expo.dev/router/introduction/) if additional configuration is required.
+
+2. **Axios**: For handling HTTP requests and interactions with external APIs.
+   - Used for calling endpoints and managing API responses.
+   - Basic setup is included for quickly making API requests.
+
+---
+
+## Developer Instructions
+
+1. **State Management**: Use a global state management solution of your choice (e.g., Redux, Zustand, or Context API) to handle application-wide data, such as user sessions, API responses, and any other shared data.
+2. **TypeScript**: Use TypeScript to define types based on the structure of API responses, ensuring type safety across the app.
+
+3. **Project Structure**: Follow modular and organized folder structures for easier maintenance:
+
+   - `components/`: Reusable UI components.
+   - `app/screens/`: Separate file for each screen in the app.
+
+4. **Figma Design Reference**: Implement screen layouts as specified in the provided Figma file.
+
+---
+
+For any issues or questions, refer to the documentation of the pre-installed packages or contact the project maintainer.
