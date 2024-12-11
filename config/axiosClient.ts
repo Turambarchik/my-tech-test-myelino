@@ -5,10 +5,10 @@ export interface CustomHeaders extends HeadersDefaults {
   Authorization?: string | null;
 }
 
-const baseURL = 'http://3.29.235.93:8080';
+const baseURL = 'https://api.myelino.com';
 
 const axiosClient: AxiosInstance = axios.create({
-  baseURL: `${baseURL}/api/v1`,
+  baseURL: `${baseURL}/v1`,
   withCredentials: true,
   headers: {
     'Content-Type': 'application/json',
