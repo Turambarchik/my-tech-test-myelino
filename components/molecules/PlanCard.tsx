@@ -1,11 +1,12 @@
-import React, { useMemo } from "react";
-import { Image } from "expo-image";
-import styled from "styled-components/native";
-import { LinearGradient } from "expo-linear-gradient";
-import { CARD_HEIGHT, CARD_WIDTH, CARD_WIDTH_WITH_MORE } from "@/app/(main)/constants";
-import { UsersPlanCardIcon, PricePlanCardIcon, CheckPlanCardIcon } from "@/assets/svgs/planner";
-import { StyleSheet } from "react-native";
+import { CARD_HEIGHT } from "@/app/(main)/constants";
+import { CheckPlanCardIcon, PricePlanCardIcon, UsersPlanCardIcon } from "@/assets/svgs/planner";
 import { MaterialIcons } from "@expo/vector-icons";
+import { Image } from "expo-image";
+import { LinearGradient } from "expo-linear-gradient";
+import React, { useMemo } from "react";
+import { StyleSheet } from "react-native";
+import styled from "styled-components/native";
+import { Typography } from "../atoms";
 
 type PlanCardProps = {
   imageUrl: string;
@@ -15,6 +16,7 @@ type PlanCardProps = {
   id: string;
   locationIcon?: boolean;
   isMore?: boolean;
+  width?: number;
   onDelete?: (id: string) => void;
 };
 
@@ -26,19 +28,23 @@ export const PlanCard: React.FC<PlanCardProps> = ({
   id,
   locationIcon = true,
   isMore = false,
+  width,
   onDelete,
 }) => {
-  const GradientOverlay = useMemo(() => (
-    <LinearGradient
-      colors={["rgba(0, 0, 0, 0)", "rgba(0, 0, 0, 0.5)", "#000000"]}
-      start={{ x: 0.5, y: 0 }}
-      end={{ x: 0.5, y: 1 }}
-      style={{ ...StyleSheet.absoluteFillObject }}
-    />
-  ), []);
+  const GradientOverlay = useMemo(
+    () => (
+      <LinearGradient
+        colors={["rgba(0, 0, 0, 0)", "rgba(0, 0, 0, 0.5)", "#000000"]}
+        start={{ x: 0.5, y: 0 }}
+        end={{ x: 0.5, y: 1 }}
+        style={{ ...StyleSheet.absoluteFillObject }}
+      />
+    ),
+    []
+  );
 
   return (
-    <CardContainer isMore={isMore}>
+    <CardContainer isMore={isMore} width={width}>
       {onDelete && (
         <DeleteButton onPress={() => onDelete(id)} accessibilityLabel="Delete Plan">
           <MaterialIcons name="cancel" size={18} color="white" />
@@ -53,16 +59,24 @@ export const PlanCard: React.FC<PlanCardProps> = ({
         />
         {GradientOverlay}
         <CardContent>
-          <Title>{title}</Title>
+          <Typography style={{ marginBottom: 6 }} font="Inter" fw="500" fz="fz14" color="white" lh={17}>
+            {title}
+          </Typography>
           <DetailsRow>
-            <DetailItem>
-              <UsersPlanCardIcon />
-              <DetailText>{people}</DetailText>
-            </DetailItem>
-            <DetailItem>
-              <PricePlanCardIcon />
-              <DetailText>{price}</DetailText>
-            </DetailItem>
+              <DetailsRow>
+              <DetailItem>
+                <UsersPlanCardIcon />
+                <Typography style={{marginLeft: 4}} font="RobotoRegular" fw="400" fz="fz13" color="white">
+                  {people}
+                </Typography>
+              </DetailItem>
+              <DetailItem>
+                <PricePlanCardIcon />
+                <Typography style={{marginLeft: 4}} font="RobotoRegular" fw="400" fz="fz13" color="white">
+                  {price}
+                </Typography>
+                </DetailItem>
+              </DetailsRow>
             {locationIcon && (
               <DetailItem>
                 <CheckPlanCardIcon />
@@ -75,8 +89,8 @@ export const PlanCard: React.FC<PlanCardProps> = ({
   );
 };
 
-const CardContainer = styled.View<{ isMore: boolean }>`
-  width: ${(props) => (props.isMore ? CARD_WIDTH_WITH_MORE : CARD_WIDTH)}px;
+const CardContainer = styled.View<{ isMore: boolean; width?: number }>`
+  width: ${(props) => (props.width)}px;
   height: ${CARD_HEIGHT}px;
   border-radius: 10px;
   overflow: hidden;
@@ -96,6 +110,7 @@ const DeleteButton = styled.TouchableOpacity`
 
 const ImageWrapper = styled.View`
   flex: 1;
+  width: 100%;
   position: relative;
 `;
 
@@ -113,13 +128,6 @@ const CardContent = styled.View`
   width: 100%;
 `;
 
-const Title = styled.Text`
-  font-size: 16px;
-  font-weight: 700;
-  color: white;
-  margin-bottom: 10px;
-`;
-
 const DetailsRow = styled.View`
   flex-direction: row;
   justify-content: space-between;
@@ -131,13 +139,8 @@ const DetailItem = styled.View`
   flex-direction: row;
   align-items: center;
   justify-content: center;
+  margin-right: 2px;
   background-color: rgba(255, 255, 255, 0.3);
   border-radius: 100px;
   padding: 4px 8px;
-`;
-
-const DetailText = styled.Text`
-  font-size: 12px;
-  color: white;
-  margin-left: 4px;
 `;

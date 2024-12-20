@@ -17,8 +17,8 @@ export const BackButton: React.FC = () => {
 const BackButtonContainer = styled(TouchableOpacity)`
   justify-content: center;
   align-items: center;
-  height: 46px;
-  width: 46px;
+  height: 40px;
+  width: 40px;
   border-radius: 100px;
   z-index: 20;
   background-color: ${({ theme }) => theme.colors.primary};

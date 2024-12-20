@@ -5,3 +5,4 @@ export function getDaysUntil(date: string): number {
   const diffInMs = targetDate.getTime() - currentDate.getTime();
   return Math.ceil(diffInMs / (1000 * 60 * 60 * 24));
 }
+

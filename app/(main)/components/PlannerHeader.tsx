@@ -4,7 +4,7 @@ import { Typography } from "@/components/atoms";
 
 const PlannerHeader: React.FC = () => {
   return (
-    <View>
+    <View style={{marginLeft: 11}}>
       <Typography fw="600" fz="fz14" font="Inter" lh={17} color="black">
         Saturday, 26 Aug
       </Typography>

@@ -24,7 +24,7 @@ const ChipSection: React.FC<ChipSectionProps> = ({ chips }) => {
 
   return (
     <View>
-               <Typography style={{ marginBottom: 5 }} font="Inter" fz="fz20" fw="600" color="black">
+               <Typography style={{ marginBottom: 5, marginLeft: 11, }} lh={28} font="Inter" fz="fz20" fw="600" color="black">
                         Plans
              </Typography>
     <Container>
@@ -66,6 +66,7 @@ const Container = styled.View`
 const ChipWrapper = styled.View`
   position: relative;
   align-items: center;
+  margin-left: 7px;
 `;
 
 const Underline = styled.View<{ color: string; length: number }>`

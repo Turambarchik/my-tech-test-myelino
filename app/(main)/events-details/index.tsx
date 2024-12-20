@@ -1,36 +1,52 @@
 import { BreadCrumpsArrowIcon } from "@/assets/svgs/planner";
-import { Screen,  Typography  } from "@/components/atoms";
+import { Screen, Typography } from "@/components/atoms";
 import { FullScreenLoader, PlanCard } from "@/components/molecules";
 import { useStoreActions, useStoreState } from "@/store";
 import { FlashList } from "@shopify/flash-list";
 import { useLocalSearchParams } from "expo-router";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ActivityIndicator } from "react-native";
 import styled from "styled-components/native";
 
-import { CARD_HEIGHT } from "../constants";
+import { useTheme } from "styled-components";
+import { CARD_HEIGHT, CARD_WIDTH_EVENTS_DETAILS_SCREEN } from "../constants";
 
 const ITEMS_PER_LOAD = 8;
 
 function EventsDetails() {
-    const { title } = useLocalSearchParams();
-  const allEvents = useStoreState((state) => state.plans.eventsDetails);
+  const { title } = useLocalSearchParams();
+  const theme = useTheme()
+  const allEvents = useStoreState((state) => state.plans.allplans);
+  const specificDateEvents = useStoreState((state) => state.plans.specificDateEvents);
   const deleteEvent = useStoreActions((actions) => actions.plans.deleteEvent);
+  const [isLoading, setIsLoading] = useState(false)
 
-  const [visibleEvents, setVisibleEvents] = useState(allEvents.slice(0, ITEMS_PER_LOAD));
+  const eventsToDisplay = title === "All plans" ? allEvents : specificDateEvents
+  const [visibleEvents, setVisibleEvents] = useState(eventsToDisplay.slice(0, ITEMS_PER_LOAD));
   const [isFetchingMore, setIsFetchingMore] = useState(false);
 
 
-    if (!allEvents) {
+     useEffect(() => {
+      setIsLoading(true);
+      const timeoutId = setTimeout(() => {
+        setIsLoading(false);
+    }, 450);
+
+    return () => clearTimeout(timeoutId);
+     }, []);
+  
+    if (isLoading) {
     return <FullScreenLoader />
     }
   
+
+  
   const handleLoadMore = () => {
-    if (isFetchingMore || visibleEvents.length >= allEvents.length) return;
+    if (isFetchingMore || visibleEvents.length >= eventsToDisplay.length) return;
 
     setIsFetchingMore(true);
     setTimeout(() => {
-      const nextEvents = allEvents.slice(visibleEvents.length, visibleEvents.length + ITEMS_PER_LOAD);
+      const nextEvents = eventsToDisplay.slice(visibleEvents.length, visibleEvents.length + ITEMS_PER_LOAD);
       setVisibleEvents((prev) => [...prev, ...nextEvents]);
       setIsFetchingMore(false);
     }, 500);
@@ -62,6 +78,7 @@ function EventsDetails() {
           renderItem={({ item }) => (
             <CardWrapper>
               <PlanCard
+                width={CARD_WIDTH_EVENTS_DETAILS_SCREEN}
                 id={item._id}
                 onDelete={handleEventItemDelete}
                 imageUrl={item.place?.photos?.[0]?.url || ""}
@@ -75,7 +92,7 @@ function EventsDetails() {
           onEndReached={handleLoadMore}
           onEndReachedThreshold={0.5}
           ListFooterComponent={
-            isFetchingMore ? <ActivityIndicator size="large" color="#0000ff" /> : null
+            isFetchingMore ? <ActivityIndicator size="large" color={theme.colors.primary} /> : null
           }
         />
       </FlashListContainer>
@@ -91,6 +108,7 @@ const Header = styled.View`
 
 const CardWrapper = styled.View`
   flex: 1;
+  align-items: center;
 `;
 
 const FlashListContainer = styled.View`

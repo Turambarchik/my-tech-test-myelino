@@ -1,16 +1,15 @@
+import { SeeMoreTempate } from "@/assets/svgs/planner";
+import { Typography } from "@/components/atoms";
+import { BulletPoint, PlanCard } from "@/components/molecules";
+import { getDaysUntil } from "@/helpers/functions";
+import { useStoreActions } from "@/store";
+import { PlanDTO } from "@/store/models/plans/plans.types";
+import { FlashList } from "@shopify/flash-list";
 import React, { useState } from "react";
 import { useTheme } from "styled-components";
 import styled from "styled-components/native";
-import { FlashList } from "@shopify/flash-list";
-import { PlanCard,  BulletPoint  } from "@/components/molecules";
-import { Typography } from "@/components/atoms";
-import { SeeMoreTempate } from "@/assets/svgs/planner";
-import { DEVICE_WIDTH } from "@/constants/constants";
-import { getDaysUntil } from "@/helpers/functions";
-import { PlanDTO } from "@/store/models/plans/plans.types";
-import { useStoreActions } from "@/store";
 
-import { BUTTON_WIDTH, CARD_HEIGHT } from "../constants";
+import { BUTTON_WIDTH, CARD_HEIGHT, CARD_WIDTH, CARD_WIDTH_WITH_MORE } from "../constants";
 import { groupPlansByDate } from "../helpers";
 
 type PlansListProps = {
@@ -68,6 +67,7 @@ const PlansList: React.FC<PlansListProps> = ({ plans, isSearchActive }) => {
                   {daysUntil ? `Expires in ${daysUntil} days!` : "Expires today"}
                 </Typography>
               </TitleRow>
+              <FlashListSubItemContainer isCompact={isCompact}>
               <FlashList
                 data={displayedPlans}
                 keyExtractor={(subItem, index) =>
@@ -85,7 +85,9 @@ const PlansList: React.FC<PlansListProps> = ({ plans, isSearchActive }) => {
                   }
 
                   return (
-                    <PlanCard
+                    <CardWrapper>
+                      <PlanCard
+                      width={!isCompact ? CARD_WIDTH_WITH_MORE : CARD_WIDTH}
                       onDelete={handleEventItemDelete}
                       id={subItem._id}
                       isMore={!isCompact}
@@ -93,11 +95,14 @@ const PlansList: React.FC<PlansListProps> = ({ plans, isSearchActive }) => {
                       title={subItem.place?.placeName?.title || "No Title"}
                       people={subItem.place?.people || 0}
                       price={subItem.place?.amountPaid || 0}
-                    />
+                      />
+                      </CardWrapper>
                   );
                 }}
               />
+                 </FlashListSubItemContainer>
             </DateSection>
+         
           );
         }}
         contentContainerStyle={{
@@ -108,22 +113,29 @@ const PlansList: React.FC<PlansListProps> = ({ plans, isSearchActive }) => {
   );
 };
 
+const CardWrapper = styled.View`
+  flex: 1;
+  align-items: center;
+`;
+
 
 const FlashListContainer = styled.View`
   flex: 1;
-  width: ${DEVICE_WIDTH}px;
 `;
 
 const DateSection = styled.View<{ isCompact: boolean }>`
   margin-bottom: 20px;
-  width: ${(props) => (props.isCompact ? `${DEVICE_WIDTH - 40}px` : `${DEVICE_WIDTH}px`)};
+`;
+
+const FlashListSubItemContainer = styled.View<{ isCompact: boolean }>`
+    flex: 1;
 `;
 
 const ShowMoreButtonWrapper = styled.TouchableOpacity`
-  width: ${BUTTON_WIDTH}px;
+  width: ${CARD_WIDTH}px;
   justify-content: center;
   align-items: center;
-  margin-left: 15px;
+  margin-left: -${CARD_WIDTH - (BUTTON_WIDTH * 2)}px;
   margin-top: 10px;
 `;
 

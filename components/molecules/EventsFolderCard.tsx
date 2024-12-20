@@ -1,5 +1,6 @@
 import { Typography } from "@/components/atoms/Typography";
 import React from "react";
+import { StyleProp, ViewStyle } from "react-native";
 import styled from "styled-components/native";
 import { ImageStack } from "./ImageStack";
 
@@ -10,11 +11,20 @@ type EventsFolderCardProps = {
   plansEventsIds: string[];
   onPress?: () => void;
   onDelete?: (plansEventsIds: string[]) => void;
+  containerStyle?: StyleProp<ViewStyle>;
 };
 
-export const EventsFolderCard: React.FC<EventsFolderCardProps> = ({ count, title, plansEventsIds, images, onDelete, onPress }) => {
+export const EventsFolderCard: React.FC<EventsFolderCardProps> = ({
+  count,
+  title,
+  plansEventsIds,
+  images,
+  onDelete,
+  onPress,
+  containerStyle,
+}) => {
   return (
-    <TouchableContainer onPress={onPress} activeOpacity={0.8}>
+    <TouchableContainer style={containerStyle} onPress={onPress} activeOpacity={0.8}>
       <LeftSection>
         <Typography fz="fz15" font="RobotoRegular" fw="400" color="grey">
           Events
@@ -31,7 +41,9 @@ export const EventsFolderCard: React.FC<EventsFolderCardProps> = ({ count, title
           {title}
         </Typography>
         <DeleteButton onPress={() => onDelete?.(plansEventsIds)}>
-          <Typography font="Inter" fw="600" fz="fz16" color="danger">Delete</Typography>
+          <Typography font="Inter" fw="600" fz="fz16" color="danger">
+            Delete
+          </Typography>
         </DeleteButton>
       </CentralSection>
       <Divider height={100} />
@@ -104,7 +116,6 @@ const NoImageView = styled.View`
   align-items: center;
   margin-right: 20px;
 `;
-
 
 const DeleteButton = styled.TouchableOpacity`
   border-radius: 12px;

@@ -4,6 +4,7 @@ import { useStoreActions } from "@/store";
 import { PlansResponse, PlanDTO } from "@/store/models/plans/plans.types";
 import { useRouter } from "expo-router";
 import React from "react";
+import { useTheme } from "styled-components";
 import styled from "styled-components/native";
 
 type TimelineProps = {
@@ -12,8 +13,9 @@ type TimelineProps = {
 
 const Timeline: React.FC<TimelineProps> = ({ monthData }) => {
   const deletePlan = useStoreActions((actions) => actions.plans.deletePlan);
-  const setEventsDetails = useStoreActions((actions) => actions.plans.setEventsDetails);
+  const setSpecificDateEvents = useStoreActions((actions) => actions.plans.setSpecificDateEvents);
   const router = useRouter();
+  const theme = useTheme()
 
   const data = Object.entries(monthData)
     .map(([month, monthDetails]) => {
@@ -45,7 +47,7 @@ const Timeline: React.FC<TimelineProps> = ({ monthData }) => {
   };
 
   const navigateToDateEvents = (events: PlanDTO[], eventTitle: string) => {
-    setEventsDetails(events);
+    setSpecificDateEvents(events)
     router.push({
       pathname: "/(main)/events-details",
       params: { title: eventTitle },
@@ -59,7 +61,7 @@ const Timeline: React.FC<TimelineProps> = ({ monthData }) => {
         <MonthContainer key={index}>
           <Row>
             <TimelineWrapper>
-              <BulletPoint color="black" />
+              <BulletPoint color={theme.colors.black} />
             </TimelineWrapper>
             <Typography style={{ marginLeft: 6 }} fz="fz16" fw="700" font="Inter" color="black">
               {monthData.month}
@@ -68,7 +70,7 @@ const Timeline: React.FC<TimelineProps> = ({ monthData }) => {
           {monthData.plans.map((plan, planIndex) => (
             <PlanRow key={planIndex}>
               <TimelineWrapper>
-                <BulletPoint color="green" />
+                <BulletPoint color={theme.colors.primary} />
               </TimelineWrapper>
               <PlanDetailsWrapper>
                 <PlanTitleWrapper>
@@ -125,13 +127,13 @@ const Line = styled.View`
   top: 5px;
   bottom: 0;
   width: 1px;
-  background-color: #c6cbcb;
+  background-color: ${({ theme }) => theme.colors.border};
 `;
 
 const ShortLine = styled.View`
   width: 14px;
   height: 1px;
-  background-color: #c6cbcb;
+  background-color: ${({ theme }) => theme.colors.border};
   margin-right: 4px;
   align-self: center;
 `;

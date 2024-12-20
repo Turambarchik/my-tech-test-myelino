@@ -1,13 +1,14 @@
 import { axiosClient } from "@/config/axiosClient";
 import { Action, action, Thunk, thunk } from "easy-peasy";
 import { PlanDTO, PlansResponse } from "./plans.types";
+import { updateMonthData } from "./uitls";
 
 export interface PlansModel {
   plans: PlansResponse | null;
   setPlans: Action<this, PlansResponse | null>;
-  eventsDetails: PlanDTO[];
-  setEventsDetails: Action<this, PlanDTO[]>;
-   specificDateEvents: PlanDTO[]
+  allplans: PlanDTO[];
+  setAllplans: Action<this, PlanDTO[]>;
+  specificDateEvents: PlanDTO[]
   setSpecificDateEvents: Action<this, PlanDTO[]>;
 
   fetchPlans: Thunk<this>;
@@ -22,9 +23,9 @@ export const plansModel: PlansModel = {
   setPlans: action((state, payload) => {
     state.plans = payload;
   }),
-  eventsDetails: [],
-  setEventsDetails: action((state, payload) => {
-    state.eventsDetails = payload;
+  allplans: [],
+  setAllplans: action((state, payload) => {
+    state.allplans = payload;
   }),
   specificDateEvents: [],
   setSpecificDateEvents: action((state, payload) => {
@@ -38,7 +39,7 @@ fetchPlans: thunk(async (actions) => {
       ...response.data,
       monthData: response.data.monthData || {}, 
     });
-    actions.setEventsDetails(response.data.allplans || []);
+    actions.setAllplans(response.data.allplans || []);
   } catch (error) {
     console.error("Error fetching plans", error);
   }
@@ -51,11 +52,16 @@ deleteEvent: thunk(async (actions, eventId, { getState }) => {
     ...currentState.plans,
     allplans: currentState.plans?.allplans.filter((event) => event._id !== eventId) || [],
     quickPlans: currentState.plans?.quickPlans.filter((event) => event._id !== eventId) || [],
-    monthData: currentState.plans?.monthData || {},
+    monthData: updateMonthData(currentState.plans?.monthData || {}, eventId),
   };
 
   actions.setPlans(updatedPlans);
-  actions.setEventsDetails(updatedPlans.allplans);
+  actions.setAllplans(updatedPlans.allplans);
+
+  const updatedSpecificDateEvents = currentState.specificDateEvents.filter(
+    (event) => event._id !== eventId
+  );
+  actions.setSpecificDateEvents(updatedSpecificDateEvents);
 
   try {
     await axiosClient.delete(`/plan/event/${eventId}`);
@@ -64,8 +70,6 @@ deleteEvent: thunk(async (actions, eventId, { getState }) => {
     await actions.fetchPlans();
   }
 }),
-
-
 deletePlan: thunk(async (actions, eventIds, { getState }) => {
   const currentState = getState();
 
@@ -111,7 +115,7 @@ deletePlan: thunk(async (actions, eventIds, { getState }) => {
   };
 
   actions.setPlans(updatedPlans);
-  actions.setEventsDetails(updatedPlans.allplans);
+  actions.setAllplans(updatedPlans.allplans);
 
   try {
     await axiosClient.delete("/plan", {

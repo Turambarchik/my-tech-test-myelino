@@ -16,7 +16,6 @@ function Planner() {
   const plans = useStoreState((state) => state.plans.plans);
   const fetchPlans = useStoreActions((actions) => actions.plans.fetchPlans);
   const loadPlannerMockData = useStoreActions((actions) => actions.plans.loadPlannerMockData);
-  const setEventsDetails = useStoreActions((actions) => actions.plans.setEventsDetails);
   const clearPlanner = useStoreActions((actions) => actions.plans.clearPlanner);
   const router = useRouter();
 
@@ -24,6 +23,7 @@ function Planner() {
   const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
+    // loadPlannerMockData()
     setIsLoading(true)
     fetchPlans().finally(() => {
       setIsLoading(false)
@@ -53,6 +53,7 @@ function Planner() {
           onPress: () => setSelectedMonth(month),
         })),
     ];
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filteredQuickPlans.length, filteredMonthData]);
 
   const filteredTimelineData = useMemo(() => {
@@ -65,7 +66,6 @@ function Planner() {
   }
 
   const navigateToAllEvents = () => {
-    setEventsDetails(plans?.allplans || []);
     router.push({
       pathname: "/(main)/events-details",
       params: { title: "All plans" },
@@ -83,7 +83,7 @@ function Planner() {
   };
 
   return (
-    <Screen horizontalPadding={20}>
+    <Screen style={{paddingLeft: 9, paddingRight: 11}} horizontalPadding={0}>
       <ScrollContainer>
         <PlannerHeader />
         <CustomInput
@@ -94,12 +94,14 @@ function Planner() {
             margin: 1,
             marginTop: 16,
             marginBottom: 16,
+            marginLeft: 11,
             height: 50
           }}
           renderLeftIcon={() => <InputSearchIcon />}
         />
         <ChipSection chips={chips} />
         <EventsFolderCard
+          containerStyle={{marginTop: 15, marginLeft: 10, marginBottom: 42}}
           plansEventsIds={plans?.allplans.map((el) => el._id) || []}
           onDelete={handleDelete}
           onPress={navigateToAllEvents}

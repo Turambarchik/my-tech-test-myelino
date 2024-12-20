@@ -80,10 +80,10 @@ To get started, clone the repository and install dependencies:
 
 ```bash
 # Clone the repository
-git clone https://github.com/your-repo/myelino-technical-test.git
+git clone https://github.com/Turambarchik/my-tech-test-myelino.git
 
 # Navigate into the project directory
-cd myelino-technical-test
+cd my-tech-test-myelino
 
 # Install dependencies
 npm install
@@ -159,7 +159,7 @@ Here is an explanation of the libraries added to this test application and their
 - **Purpose**: Provides an optimized image component for React Native applications with advanced features like caching and placeholders.
 - **Use Case**: Ensures images load efficiently and look great, improving app performance and user experience.
 
-### 4. **expo-linear-gradient** _(repeated in the list)_
+### 4. **expo-linear-gradient**
 
 - **Purpose**: Allows the creation of visually appealing gradient backgrounds and overlays in the application.
 - **Use Case**: Useful for enhancing UI designs with smooth transitions between colors, creating engaging visual experiences.
@@ -179,16 +179,17 @@ The Planner screen is a thoughtfully crafted React Native component with feature
 #### 1. **Delete Functionality**
 
 - **clearPlanner**: A dedicated function to clear all plans efficiently. This ensures a clean slate for users when needed, simplifying state management and providing a robust action for the application.
-- **Plan-Specific Deletion**: Each plan and event can be deleted using functions like deleteEvent, giving users precise control over their data.
+
+- **Plan-Specific Deletion**: The application supports precise deletion functionality. Using the `deleteEvent` function, users can remove individual events or plans. This deletion is handled locally, ensuring the state is updated efficiently across various entities.
+
+- **State Synchronization**: When an event is deleted, the update is propagated across the entire `PlansResponse` object, ensuring consistent state updates. For example, if an event is deleted on the **Events** screen, it is simultaneously removed from the entire `PlansResponse` structure. This ensures that the changes reflect accurately across all relevant components, such as the **TimeLine** and other screens or lists where the event is displayed.
+
+This robust deletion mechanism ensures a seamless and synchronized user experience across the application, maintaining consistency and efficiency in state management.
 
 #### 2. **Search with Debouncing**
 
 - **Debounced Search**: The search logic is implemented with debouncing, ensuring that filtering operations are only triggered after a user stops typing. This minimizes unnecessary computations and improves performance, especially with large datasets.
 - **Seamless Filtering**: The useSearchPlans hook dynamically filters quickPlans and monthData, enabling real-time updates and enhancing the user experience.
-
-#### 3. **Performance-Optimized List Rendering**
-
-- **FlashList Integration**: The PlansList component uses @shopify/flash-list for rendering grouped plans. This optimizes memory usage and ensures smooth scrolling, even with large datasets.
 
 #### 3. **Performance-Optimized List Rendering**
 
@@ -253,30 +254,21 @@ The `EventsDetails` screen is designed to display a paginated list of events wit
 
 ---
 
-### Problems and Shortcomings
+### Missing Features in the Project
 
-#### 1. **Incomplete Custom Fonts**
+#### 1. **Impact on Android Font Weights**
 
-- The custom fonts provided were incomplete and did not include all font weights, such as `bold`, `light`, or `medium`. Only a limited set of font files were available:
-  ```javascript
-  const [loaded] = useFonts({
-    Inter: require("../assets/fonts/Inter.ttf"),
-    RobotoBold: require("../assets/fonts/Roboto-Bold.ttf"),
-    RobotoLight: require("../assets/fonts/Roboto-Light.ttf"),
-    RobotoMedium: require("../assets/fonts/Roboto-Medium.ttf"),
-    RobotoRegular: require("../assets/fonts/Roboto-Regular.ttf"),
-    SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
-  });
-  ```
-
-markdown
-Copy code
-
-#### Impact on Android
-
-- **Impact on Android Font Weight Limitations**: On Android, font weights are tied directly to specific font files. Without a full range of font weights, text styling (e.g., bold or light) depends on the limited files, leading to inconsistent appearance.
+- **Impact on Android**: On Android, font weights are tied directly to specific font files. Without a full range of font weights, text styling (e.g., bold or light) depends on the limited files, leading to inconsistent appearance.
 
 - **Visual Discrepancy**: Due to the missing font files, text in the application may not align with the design specifications, especially on Android, where the font rendering relies on explicitly defined weights.
+
+#### 2. **Advanced authentication with interceptors handler**
+
+- **Reason for Not Implementing**: The implementation of these features was not completed because they were not explicitly mentioned as requirements in the project's task scope.
+
+- **Template Creation**: A template was created to facilitate the integration of JWT (JSON Web Token) authentication or cookie-based authentication. The template included basic structures and logic to handle JWT-based authentication securely.
+
+- **Flexibility**: The created template can serve as a foundation for integrating either JWT or cookie-based authentication in the future, depending on the requirements.
 
 ---
 

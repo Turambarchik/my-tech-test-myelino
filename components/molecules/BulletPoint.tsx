@@ -1,7 +1,6 @@
 import React from "react";
 import styled from "styled-components/native";
 
-import type theme from "@/theme/theme";
 
 type BulletPointProps = {
   color: string;
