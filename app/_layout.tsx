@@ -1,22 +1,18 @@
-import {
-  DarkTheme,
-  DefaultTheme,
-  ThemeProvider,
-} from '@react-navigation/native';
-
 import { useFonts } from 'expo-font';
-import { Stack } from 'expo-router';
+import { Slot } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 import 'react-native-reanimated';
 
-import { useColorScheme } from '@/hooks/useColorScheme';
+import { store } from '@/store';
+import { ThemeProvider } from '@/theme/theme.provider';
+import { StoreProvider } from 'easy-peasy';
+import { StatusBar } from 'expo-status-bar';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
-// Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
-  const colorScheme = useColorScheme();
   const [loaded] = useFonts({
     Inter: require('../assets/fonts/Inter.ttf'),
     RobotoBold: require('../assets/fonts/Roboto-Bold.ttf'),
@@ -37,16 +33,13 @@ export default function RootLayout() {
   }
 
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack
-        initialRouteName="index"
-        screenOptions={{
-          headerShown: false,
-        }}
-      >
-        <Stack.Screen name="index" options={{ headerShown: false }} />
-        <Stack.Screen name="screens/planner" />
-      </Stack>
-    </ThemeProvider>
+    <SafeAreaProvider>
+      <StoreProvider store={store}>
+        <StatusBar translucent backgroundColor="transparent" />
+        <ThemeProvider>
+          <Slot />
+        </ThemeProvider>
+      </StoreProvider>
+    </SafeAreaProvider>
   );
 }

@@ -1,9 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import axios, { AxiosError, AxiosInstance, HeadersDefaults } from 'axios';
-
-export interface CustomHeaders extends HeadersDefaults {
-  Authorization?: string | null;
-}
+import axios, { AxiosError, AxiosInstance, InternalAxiosRequestConfig } from 'axios';
 
 const baseURL = 'https://api.myelino.com';
 
@@ -16,9 +12,9 @@ const axiosClient: AxiosInstance = axios.create({
 });
 
 axiosClient.interceptors.request.use(
-  async (config) => {
+  async (config: InternalAxiosRequestConfig) => {
     const cookies = await AsyncStorage.getItem('cookies');
-    if (cookies) {
+    if (cookies && cookies.trim() !== '') {
       config.headers.Cookie = cookies;
     }
     return config;
@@ -31,7 +27,7 @@ axiosClient.interceptors.request.use(
 axiosClient.interceptors.response.use(
   async (response) => {
     const setCookieHeader = response.headers['set-cookie'];
-    if (setCookieHeader) {
+    if (setCookieHeader && Array.isArray(setCookieHeader)) {
       const cookies = setCookieHeader
         .map((cookie) => cookie.split(';')[0])
         .join('; ');
