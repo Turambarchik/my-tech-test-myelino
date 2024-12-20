@@ -277,13 +277,26 @@ The `EventsDetails` screen is designed to display a paginated list of events wit
 
 - **Visual Discrepancy**: Due to the missing font files, text in the application may not align with the design specifications, especially on Android, where the font rendering relies on explicitly defined weights.
 
-#### 2. **Advanced authentication with interceptors handler**
+#### 2. **Advanced Authentication with Interceptor Handlers**
 
 - **Reason for Not Implementing**: The implementation of these features was not completed because they were not explicitly mentioned as requirements in the project's task scope.
 
 - **Template Creation**: A template was created to facilitate the integration of JWT (JSON Web Token) authentication or cookie-based authentication. The template included basic structures and logic to handle JWT-based authentication securely.
 
 - **Flexibility**: The created template can serve as a foundation for integrating either JWT or cookie-based authentication in the future, depending on the requirements.
+
+#### 3. **Linting, Husky Hooks, Prettier, and TypeScript Settings**
+
+- **Customizable Configuration**: The project could have included advanced setup for:
+
+  - **Linting**: To ensure code consistency and detect issues.
+  - **Husky Pre-Commit/Pre-Push Hooks**: To enforce standards before committing or pushing code.
+  - **Prettier**: For consistent code formatting across the project.
+  - **TypeScript Settings**: For stricter type checking and enhanced developer productivity.
+
+- **Reason for Not Implementing**: These configurations were not explicitly required in the task scope. Instead, focus was placed on completing the features outlined in the task requirements, optimizing time for priority tasks.
+
+- **Future Potential**: The project structure allows easy integration of these tools if needed in subsequent iterations.
 
 ---
 

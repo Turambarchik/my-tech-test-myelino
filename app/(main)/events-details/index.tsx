@@ -10,6 +10,7 @@ import styled from "styled-components/native";
 
 import { useTheme } from "styled-components";
 import { CARD_HEIGHT, CARD_WIDTH_EVENTS_DETAILS_SCREEN } from "../constants";
+import { ALL_PLANS_TITLE } from "@/constants/constants";
 
 const ITEMS_PER_LOAD = 8;
 
@@ -21,7 +22,7 @@ function EventsDetails() {
   const deleteEvent = useStoreActions((actions) => actions.plans.deleteEvent);
   const [isLoading, setIsLoading] = useState(false)
 
-  const eventsToDisplay = title === "All plans" ? allEvents : specificDateEvents
+  const eventsToDisplay = title === ALL_PLANS_TITLE ? allEvents : specificDateEvents
   const [visibleEvents, setVisibleEvents] = useState(eventsToDisplay.slice(0, ITEMS_PER_LOAD));
   const [isFetchingMore, setIsFetchingMore] = useState(false);
 

@@ -6,3 +6,4 @@ export const isAOS = Platform.OS === "android";
 
 export const DEVICE_WIDTH = Dimensions.get("window").width;
 export const DEVICE_HEIGHT = Dimensions.get("window").height;
+export const ALL_PLANS_TITLE = "All plans"
