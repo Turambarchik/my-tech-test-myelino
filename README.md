@@ -69,10 +69,25 @@ This structure ensures a clear separation of concerns and leverages `expo-router
 
 ## Architectural Decisions
 
-- **Modular Component Organization**: Components are grouped by scope and responsibility to improve reusability and maintainability.
-- **State Management**: `easy-peasy` is used for state management to simplify complex state interactions.
-- **Lazy Loading**: Image loading is optimized with `expo-image` for better performance on mobile devices.
-- **Theming with `styled-components`**: Ensures consistent styling and theming throughout the application.
+- **Atomic Design Architecture**: The application follows the **Atomic Design** methodology for component architecture. Components are divided into atoms, molecules, organisms, templates, and pages, ensuring better scalability, reusability, and maintainability.
+
+- **Modular Component Organization**: Components are grouped by scope and responsibility, adhering to modular principles. This improves clarity, reusability, and the separation of concerns in the codebase.
+
+- **Adherence to Popular Software Design Principles**:
+
+  - **SOLID**: Ensures single-responsibility, open-closed design, and other principles for better maintainability and extensibility.
+  - **DRY (Don't Repeat Yourself)**: Reusable utilities, hooks, and components minimize duplication and promote consistency throughout the project.
+  - **KISS (Keep It Simple, Stupid)**: Simplifies component logic and avoids unnecessary complexity in the code.
+  - **YAGNI (You Aren’t Gonna Need It)**: Encourages implementing only the features and code needed for current requirements, reducing overengineering.
+  - **Composition Over Inheritance**: Promotes using React's composition model to build flexible, reusable components instead of relying on complex inheritance hierarchies.
+
+- **State Management**: `easy-peasy` is used for managing the application's state, simplifying complex interactions while maintaining clarity and scalability.
+
+- **Lazy Loading**: Image loading is optimized using `expo-image`, enhancing performance on mobile devices by loading assets efficiently and reducing memory consumption.
+
+- **Theming with `styled-components`**: The application employs `styled-components` for consistent styling and theming. This ensures uniform design across the app and enables dynamic theming for enhanced user experience.
+
+This architectural approach ensures the project is clean, scalable, and easy to maintain while incorporating widely-used best practices in React Native crossplatform development.
 
 ## Installation
 
